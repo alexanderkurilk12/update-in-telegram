@@ -1,0 +1,40 @@
+import telegram
+from telegram.ext import Updater, CommandHandler
+
+# Ваш токен бота Telegram
+TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN'
+
+# Функція-обробник команди /start
+def start(update, context):
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Привіт! Я бот для сповіщення про нові моди The Sims 4 Mod Manager.")
+
+# Функція для перевірки наявності нових модів
+def check_new_mods():
+    # Ваш код для перевірки наявності нових модів
+    # Цей блок коду має виконуватися періодично або за запитом
+
+    # Якщо знайдено нові моди, надіслати сповіщення
+    new_mods = ["Мод 1", "Мод 2", "Мод 3"]
+    if new_mods:
+        for mod in new_mods:
+            send_notification(mod)
+
+# Функція для відправлення сповіщення
+def send_notification(mod_name):
+    bot = telegram.Bot(token=TOKEN)
+    chat_id = 'YOUR_CHAT_ID'  # Ваш chat_id в Telegram, куди будуть надходити сповіщення
+    message = f"З'явився новий мод: {mod_name}"
+    bot.send_message(chat_id=chat_id, text=message)
+
+# Функція для запуску бота
+def run_bot():
+    updater = Updater(TOKEN, use_context=True)
+    dp = updater.dispatcher
+
+    dp.add_handler(CommandHandler("start", start))
+
+    updater.start_polling()
+    updater.idle()
+
+if __name__ == '__main__':
+    run_bot()
